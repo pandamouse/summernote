@@ -7,7 +7,7 @@
  * Copyright 2013- Alan Hong and contributors
  * Summernote may be freely distributed under the MIT license.
  *
- * Date: 2021-10-14T21:15Z
+ * Date: 2024-01-10T04:24Z
  *
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -19,7 +19,7 @@
 		var a = typeof exports === 'object' ? factory(require("jQuery")) : factory(root["jQuery"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(self, function(__WEBPACK_EXTERNAL_MODULE__1145__) {
+})(self, (__WEBPACK_EXTERNAL_MODULE__1145__) => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -2391,6 +2391,8 @@ var Context = /*#__PURE__*/function () {
 
 
 ;// CONCATENATED MODULE: ./src/js/summernote.js
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -2403,7 +2405,8 @@ external_jQuery_default().fn.extend({
    * @return {this}
    */
   summernote: function summernote() {
-    var type = external_jQuery_default().type(lists.head(arguments));
+    var type = _typeof(lists.head(arguments));
+
     var isExternalAPICalled = type === 'string';
     var hasInitOptions = type === 'object';
     var options = external_jQuery_default().extend({}, (external_jQuery_default()).summernote.options, hasInitOptions ? lists.head(arguments) : {}); // Update options
@@ -6118,7 +6121,7 @@ var Editor = /*#__PURE__*/function () {
       // [workaround] Screen will move when page is scolled in IE.
       //  - do focus when not focused
       if (!this.hasFocus()) {
-        this.$editable.focus();
+        this.$editable.trigger('focus');
       }
     }
     /**
@@ -6332,7 +6335,7 @@ var Dropzone = /*#__PURE__*/function () {
         event.preventDefault();
 
         if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
-          _this.$editable.focus();
+          _this.$editable.trigger('focus');
 
           _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
         } else {
@@ -6522,7 +6525,7 @@ var CodeView = /*#__PURE__*/function () {
       this.context.invoke('toolbar.updateCodeview', true);
       this.context.invoke('airPopover.updateCodeview', true);
       this.$editor.addClass('codeview');
-      this.$codable.focus(); // activate CodeMirror as codable
+      this.$codable.trigger('focus'); // activate CodeMirror as codable
 
       if (CodeMirror) {
         var cmEditor = CodeMirror.fromTextArea(this.$codable[0], this.options.codemirror); // CodeMirror TernServer
@@ -6578,7 +6581,7 @@ var CodeView = /*#__PURE__*/function () {
         this.context.triggerEvent('change', this.$editable.html(), this.$editable);
       }
 
-      this.$editable.focus();
+      this.$editable.trigger('focus');
       this.context.invoke('toolbar.updateCodeview', false);
       this.context.invoke('airPopover.updateCodeview', false);
     }
@@ -7354,11 +7357,11 @@ var Buttons = /*#__PURE__*/function () {
               }).render());
             });
             $dropdown.find('input[type=color]').each(function (idx, item) {
-              external_jQuery_default()(item).change(function () {
+              external_jQuery_default()(item).on("change", function () {
                 var $chip = $dropdown.find('#' + external_jQuery_default()(this).data('event')).find('.note-color-btn').first();
                 var color = this.value.toUpperCase();
                 $chip.css('background-color', color).attr('aria-label', color).attr('data-value', color).attr('data-original-title', color);
-                $chip.click();
+                $chip.trigger('click');
               });
             });
           },
@@ -7378,7 +7381,7 @@ var Buttons = /*#__PURE__*/function () {
               var color = $picker.val();
               $chip.css('background-color', color).attr('aria-label', color).attr('data-value', color).attr('data-original-title', color);
               $palette.prepend($chip);
-              $picker.click();
+              $picker.trigger('click');
             } else {
               if (lists.contains(['backColor', 'foreColor'], eventName)) {
                 var key = eventName === 'backColor' ? 'background-color' : 'color';
@@ -7677,7 +7680,7 @@ var Buttons = /*#__PURE__*/function () {
             $catcher.css({
               width: _this2.options.insertTableMaxSize.col + 'em',
               height: _this2.options.insertTableMaxSize.row + 'em'
-            }).mouseup(_this2.context.createInvokeHandler('editor.insertTable')).on('mousemove', _this2.tableMoveHandler.bind(_this2));
+            }).on('mousedown', _this2.context.createInvokeHandler('editor.insertTable')).on('mousemove', _this2.tableMoveHandler.bind(_this2));
           }
         }).render();
       });
@@ -8659,7 +8662,7 @@ var ImageDialog = /*#__PURE__*/function () {
             $imageUrl.trigger('focus');
           }
 
-          $imageBtn.click(function (event) {
+          $imageBtn.on('click', function (event) {
             event.preventDefault();
             deferred.resolve($imageUrl.val());
           });
@@ -9087,7 +9090,7 @@ var VideoDialog = /*#__PURE__*/function () {
             $videoUrl.trigger('focus');
           }
 
-          $videoBtn.click(function (event) {
+          $videoBtn.on('click', function (event) {
             event.preventDefault();
             deferred.resolve($videoUrl.val());
           });
@@ -9941,7 +9944,7 @@ var HintPopover = /*#__PURE__*/function () {
   }
 });
 ;// CONCATENATED MODULE: ./src/js/renderer.js
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function renderer_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { renderer_typeof = function _typeof(obj) { return typeof obj; }; } else { renderer_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return renderer_typeof(obj); }
 
 function renderer_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10013,7 +10016,7 @@ var Renderer = /*#__PURE__*/function () {
 /* harmony default export */ const renderer = ({
   create: function create(markup, callback) {
     return function () {
-      var options = _typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
+      var options = renderer_typeof(arguments[1]) === 'object' ? arguments[1] : arguments[0];
       var children = Array.isArray(arguments[0]) ? arguments[0] : [];
 
       if (options && options.children) {
@@ -10494,7 +10497,7 @@ var tableDropdownButton = function tableDropdownButton(opt) {
       $catcher.css({
         width: opt.col + 'em',
         height: opt.row + 'em'
-      }).mouseup(opt.itemClick).mousemove(function (e) {
+      }).on('mouseup', opt.itemClick).on('mousemove', function (e) {
         tableMoveHandler(e, opt.col, opt.row);
       });
     }
